@@ -25,7 +25,18 @@ router.get('/:id', function(req, res, next) {
 });
 
 /* POST /api */
-router.put('/', function(req, res, next) {
+router.post('/', function(req, res, next) {
+  console.log('----POST request');
+  console.log(req.body);
+  Special.create(req.body, function(err, special) {
+    if (err) return (next(err));
+    res.json(special);
+  });
+});
+
+
+/* PUT /api/id */
+router.put('/:id', function(req, res, next) {
   console.log(req.body);
   Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
@@ -34,7 +45,7 @@ router.put('/', function(req, res, next) {
 });
 
 /* PATCH /api/id */
-router.patch('/', function(req, res, next) {
+router.patch('/:id', function(req, res, next) {
   console.log(req.body);
   Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
@@ -43,7 +54,7 @@ router.patch('/', function(req, res, next) {
 });
 
 /* DELETE /api/id */
-router.delete('/', function(req, res, next) {
+router.delete('/:id', function(req, res, next) {
   console.log(req.body);
   Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
