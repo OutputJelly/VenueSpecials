@@ -12,7 +12,9 @@ var db = require('./db/database');
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var users = require('./routes/users');
+var submit = require('./routes/submit');
 var maptest = require('./routes/maptest');
+
 
 var app = express();
 
@@ -32,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/api', api);
 app.use('/users', users);
+app.use('/', submit);
 app.use('/maptest', maptest);
 
 // catch 404 and forward to error handler
