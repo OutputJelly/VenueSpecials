@@ -1,0 +1,99 @@
+/**************************** VARIABLES ****************************/
+
+
+@bg: rgb(12, 180, 133);
+
+
+/**************************** GENERAL ****************************/
+body {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: #00B7FF;
+}
+
+/**************************** HEADER ****************************/
+
+header {
+  background-color: @bg;
+  border-bottom: 1px solid darken(@bg, 10%);
+}
+
+.logo {
+  color: rgb(71, 201, 166);
+}
+
+.button-container {
+  margin-top: 25px;
+}
+
+/**************************** SEARCH ****************************/
+
+.search-box {
+  background-image: url('http://www.afjonline.com/images/hero1.jpg');
+  background-size: cover;
+  height: 200px;
+  filter: blur(5px);
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.search-bar {
+  margin: 60px auto;
+  width: 50%;
+}
+
+#search-entry {
+}
+
+/**************************** SEARCH ****************************/
+
+.slide-reel {
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.slides {
+  list-style: none;
+  padding: 0;
+}
+
+.slide {
+  float: left;
+  width: 100%;
+}
+
+.slide img {
+  width: 100%;
+  height: 200px;
+}
+
+
+/**************************** VENUE ENTRIES ****************************/
+
+.venue {
+  border-radius: 10px;
+  background-color: rgb(218, 218, 218);
+  border: 2px solid rgb(108, 108, 108);
+  height: 140px;
+  width: 75%;
+  margin: 10px auto;
+}
+
+.venue-title {
+  font-size: 20px;
+}
+
+.venue-address {
+  float: left;
+}
+
+.venue-phonenumber {
+  float: right;
+}
