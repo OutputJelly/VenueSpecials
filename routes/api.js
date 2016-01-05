@@ -4,7 +4,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 // TODO --- update this with Jason's model
-var Specials = require('../models/Specials');
+var Special = require('../models/Special');
 
 /* GET /api */
 router.get('/', function(req, res, next) {
@@ -43,7 +43,7 @@ router.patch('/', function(req, res, next) {
 });
 
 /* DELETE /api/id */
-router.detete('/', function(req, res, next) {
+router.delete('/', function(req, res, next) {
   console.log(req.body);
   Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
