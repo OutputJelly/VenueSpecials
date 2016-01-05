@@ -1,2 +1,80 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class='search-box'>
+  <div class='slide-reel'>
+    <ul class='slides'>
+      <li class='slide'><img src='http://www.afjonline.com/images/hero1.jpg'></li>
+      <li class='slide'><img src='http://www.afjonline.com/images/hero1.jpg'></li>
+    </ul>
+  </div>
+  <div class='container'>
+    <div class='search-bar'>
+      <form action='POST' method=''>
+        <div class='input-group input-lg'>
+          <input type='text' class='form-control input-lg' id='search-entry'>
+          <div class='input-group-btn'>
+            <button type='button' class='btn btn-primary input-lg'>Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class='entries'>
+  <div class='container'>
+    <div class='row'>
+      <div class='venue'>
+        <div class='venue-title'>
+          Bob's Burgers
+        </div>
+        <div class='venue-address'>
+          Address: 12 Burger Lane NE
+        </div>
+        <div class='venue-phonenumber'>
+          Phone: (616) 402-1239
+        </div>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='venue'>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type='text/javascript'>
+slider();
+function slider() {
+  var slideCount = $('.slide-reel ul li').length;
+  var slideWidth = window.innerWidth;
+  var slideHeight = window.innerHeight;
+  var sliderUlWidth = slideCount * slideWidth;
+
+  $('.slide-reel').css({
+      width: slideWidth,
+      height: slideHeight
+  });
+
+  $('.slide-reel ul').css({
+      width: sliderUlWidth
+  });
+
+  $('.slide-reel ul li:last-child').prependTo('.slider ul');
+
+  function moveRight() {
+      $('.slide-reel ul').animate({
+          left: -slideWidth
+      }, 1000, function() {
+          $('.slide-reel ul li:first-child').appendTo('.slide-reel ul');
+          $('.slide-reel ul').css('left', '');
+      });
+
+  };
+  setInterval(function() {
+      moveRight();
+  }, 1000);
+}
+
+</script>
