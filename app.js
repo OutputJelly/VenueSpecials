@@ -9,7 +9,9 @@ var bodyParser = require('body-parser');
 var session = require('express-session')
 var lessMiddleware = require('less-middleware');
 
-
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 //load db
 
 var db = require('./db/database');
@@ -25,6 +27,20 @@ var maptest = require('./routes/maptest');
 
 
 var app = express();
+
+app.use(require('express-session')({
+  secret: 'the specialist is the most special',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+var User = require('./models/User');
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
