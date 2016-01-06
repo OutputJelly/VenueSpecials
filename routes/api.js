@@ -16,11 +16,6 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.get('/by_username:username', function(req, res, next) {
-)};
-
-
-
 /* GET /api/id */
 router.get('/:id', function(req, res, next) {
   console.log(req.body);
