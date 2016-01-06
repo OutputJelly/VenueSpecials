@@ -19,11 +19,28 @@
           </h1>
         </div>
         <div class='button-container pull-right'>
-          <button type="button" class="btn btn-primary"><a href="/users/login">Add Special</a></button>
-          <button type="button" class="btn btn-primary"><a href="/users/login">Sign In</a></button>
+          <button type="button" class="btn btn-primary">
+            {{#if user}}
+            <a href="/submit">Add Special</a>
+            {{else}}
+            <a href="/users/login">Add Special</a>
+            {{/if}}
+          </button>
+          <button type="button" class="btn btn-primary">
+            {{#if user}}
+            <a href="/users/logout">Sign Out</a>
+            {{else}}
+            <a href="/users/login">Sign In</a>
+            {{/if}}
+          </button>
         </div>
       </div>
     </header>
+    <div id="username">
+      {{#if user}}
+      Welcome, {{user.username}}.
+      {{/if}}
+    </div>
       {{{body}}}
   </body>
 </html>
