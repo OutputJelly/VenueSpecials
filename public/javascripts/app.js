@@ -82,6 +82,7 @@ $(document).ready(function(){
       specialSubmitObject.VenueID = '';
       specialSubmitObject.Username = 'Bob';
       specialSubmitObject.Geoposition = { latitude: venueLatitude, longitude: venueLongitude };
+      specialSubmitObject.Username = $('#username').val();
       specialSubmitObject.Description = $('#special_description').val();
       $.ajax(specialPost);
     };
