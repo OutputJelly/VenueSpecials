@@ -6,6 +6,9 @@
   <input type="submit" value="Login">
 </form>
 
+<button id="registerbtn" name="button">Register</button>
+
+<div id="register">
 <h1>Register</h1>
 
 <form class="" action="/users/register" method="post">
@@ -14,3 +17,12 @@
   <input type="email" name="email" placeholder="Email">
   <input type="submit" value="Create Account">
 </form>
+</div>
+
+<script type="text/javascript">
+  $("#username").hide();
+  $("#register").hide();
+  $("#registerbtn").click(function() {
+  $("#register").show();
+});
+</script>
