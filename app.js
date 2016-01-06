@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session')
 var lessMiddleware = require('less-middleware');
+var Handlebars = require('handlebars');
 
 var mongoose = require('mongoose');
 var passport = require('passport');

@@ -14,6 +14,15 @@ a {
   color: #00B7FF;
 }
 
+.layer {
+  background-color: rgba(255, 255, 255, 0.22);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /**************************** HEADER ****************************/
 
 header {
@@ -86,15 +95,32 @@ header {
 
 .venue {
   border-radius: 10px;
-  background-color: rgb(218, 218, 218);
   border: 2px solid rgb(108, 108, 108);
-  height: 140px;
+  height: 180px;
   width: 75%;
   margin: 10px auto;
+  box-shadow: 1px 1px 4px black;
+  overflow: hidden;
+}
+
+.venue-header {
+  height: 30%;
+  background-image: linear-gradient(rgba(251, 251, 251, .3), rgba(0, 0, 0, 0.2));
+  background-color: rgb(14, 193, 230);
+  border-bottom: 2px solid rgb(108, 108, 108);
+  clear: both;
+}
+
+.venue-footer {
+  height: 70%;
+  width: 100%;
+  background: rgb(230, 230, 230);
 }
 
 .venue-title {
   font-size: 20px;
+  text-align: center;
+  font-weight: bold;
 }
 
 .venue-address {
@@ -104,6 +130,74 @@ header {
 .venue-phonenumber {
   float: right;
 }
+
+<<<<<<< HEAD
+.venue-photo {
+  float: left;
+  width: 25%;
+  height: 100%;
+  text-align: center;
+  background: rgb(87, 87, 87);
+}
+
+.venue-photo img {
+  margin-top: 7px;
+  vertical-align: middle;
+  width: 70%;
+  height: 85%;
+  border: 2px solid black;
+}
+
+.special-container {
+  float: right;
+  width: 75%;
+}
+
+/**************************** VENUE SPECIALS ****************************/
+
+.special {
+  height: 30px;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid black;
+  line-height: 30px;
+  background-image: linear-gradient(rgba(251, 251, 251, .1), rgba(0, 0, 0, 0.1));
+  background-color: rgb(209, 209, 209);
+}
+
+.special:hover {
+  background-color: rgb(255, 216, 139);
+}
+
+.special-date {
+  margin-left: 10px;
+  float: left;
+}
+
+.special-description {
+  float: left;
+  margin-left: 50px;
+}
+
+.special-verify {
+  float: right;
+}
+
+.special-vote {
+  float: left;
+  margin-right: 15px;
+  // width: 20px;
+  // height: 20px;
+  // border-radius: 30px;
+  // border: 1px solid black;
+}
+
+.special-vote-icon {
+  text-align: center;
+}
+
+.special-vote-icon:hover {
+  color: rgb(237, 83, 11);
 
 /**************************** Account Page ****************************/
 
