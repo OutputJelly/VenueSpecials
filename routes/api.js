@@ -29,6 +29,9 @@ router.get('/:id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   console.log('----POST request');
   console.log(req.body);
+  var objToSave = req.body;
+  // objToSave.geo.lat = parseFloat(req.body.geo.lat);
+
   Venue.create(req.body, function(err, venue){
     if (err) {
       console.log(err);
