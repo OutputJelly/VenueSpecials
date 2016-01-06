@@ -4,8 +4,7 @@ var router = express.Router();
 var mongoose = require('mongoose');
 
 // TODO --- update this with Jason's model
-var Special = require('../models/Special');
-var Venue = require('../models/Venue');
+var Models = require('../models/Venue');
 
 /* GET /api */
 router.get('/', function(req, res, next) {
@@ -27,25 +26,28 @@ router.get('/:id', function(req, res, next) {
 
 /* POST /api */
 router.post('/', function(req, res, next) {
-  console.log('----POST request');
-  console.log(req.body);
-  var objToSave = req.body;
-  // objToSave.geo.lat = parseFloat(req.body.geo.lat);
+  var query = Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
+    if (err) console.log(err);
+    console.log('Does the venue exist?', venue);
+    if (!venue) {
+      console.log('venue doesnst exist, creating new one.');
+      var special = {
+        Username: 'bob',
+        Description: req.body.Description
+      };
 
-  Venue.create(req.body, function(err, venue){
-    if (err) {
-      console.log(err);
-      return(next(err));
+      Models.Venue.create({
+        Name:  req.body.Name,
+        Address: req.body.Address || 'None',
+        PhoneNumber: req.body.PhoneNumber || 'None',
+        Longitude: req.body.Longitude,
+        Latitude: req.body.Latitude,
+        children: [special]
+      }, function(err, venue) {
+        if (err) console.log('ERROR', err);
+        console.log('Created new Venue', venue);
+      });
     }
-    console.log("whats up");
-    req.body.VenueID = venue._id;
-    Special.create(req.body, function(err, special) {
-      console.log('special create');
-      if (err) return (next(err));
-      res.json(special);
-      //    res.json(venue);
-
-    });
   });
 });
 

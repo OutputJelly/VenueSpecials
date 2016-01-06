@@ -14,14 +14,15 @@ var specialSubmitObject = {};
 
 
 var specialPost = {
-  type: "POST",
-  url: 'http://localhost:3000/api',
+  type: 'POST',
+  url: '/api',
+  dataType: 'json',
   data: specialSubmitObject,
   success: function(dataType){
-    console.log(specialSubmitObject)
+    console.log(dataType, 'look im an object');
   },
   error: function(err){
-    console.log('This did\'t work')
+    console.log('This did\'t work', err);
   }
 }
 
@@ -79,11 +80,11 @@ $(document).ready(function(){
       specialSubmitObject.Name = venueName;
       specialSubmitObject.Address = venueAddress;
       specialSubmitObject.PhoneNumber = venuePhone;
-      specialSubmitObject.VenueID = '';
-      specialSubmitObject.Username = 'Bob';
-      specialSubmitObject.Geoposition = { latitude: venueLatitude, longitude: venueLongitude };
+      specialSubmitObject.Latitude = venueLatitude;
+      specialSubmitObject.Longitude = venueLongitude;
       specialSubmitObject.Username = $('#username').val();
       specialSubmitObject.Description = $('#special_description').val();
+      console.log(specialSubmitObject);
       $.ajax(specialPost);
     };
 
