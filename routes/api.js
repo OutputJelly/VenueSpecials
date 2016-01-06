@@ -9,6 +9,10 @@ var Models = require('../models/Venue');
 /* GET /api */
 router.get('/', function(req, res, next) {
   console.log(req.body);
+  Venue.find(function(err, specials) {
+    if (err) return (next(err));
+    // res.json(specials);
+  });
   Special.find(function(err, specials) {
     if (err) return (next(err));
     res.json(specials);
@@ -18,7 +22,7 @@ router.get('/', function(req, res, next) {
 /* GET /api/id */
 router.get('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findById(req.params.id, function(err, special) {
+  Special.findById(function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
@@ -26,13 +30,13 @@ router.get('/:id', function(req, res, next) {
 
 /* POST /api */
 router.post('/', function(req, res, next) {
-  var query = Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
+  Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
     if (err) console.log(err);
     console.log('Does the venue exist?', venue);
     if (!venue) {
       console.log('venue doesnst exist, creating new one.');
       var special = {
-        Username: 'bob',
+        Username: req.user.username,
         Description: req.body.Description
       };
 
