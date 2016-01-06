@@ -6,6 +6,9 @@ var placeNumber;
 var venueName;
 var venueAddress;
 var venuePhone;
+var placeId;
+var venueLatitude;
+var venueLongitude;
 
 var specialSubmitObject = {};
 
@@ -57,12 +60,15 @@ $(document).ready(function(){
         console.log('---------');
         console.log(venuePhone);
         console.log('---------');
-        var placeNumber = place.place_id;
-        console.log(placeNumber);
+        var placeId = place.place_id;
+        console.log(placeId);
         console.log('---------');
         console.log(place);
         console.log('---------');
-        // idObject.whatever=placeNumber;
+        venueLongitude = place.geometry.location.lng();
+        console.log(venueLongitude);
+        venueLatitude = place.geometry.location.lat();
+        console.log(venueLatitude);
     };
 
     var submitSpecialButton = document.getElementById('submitSpecial');
@@ -74,7 +80,8 @@ $(document).ready(function(){
       specialSubmitObject.Address = venueAddress;
       specialSubmitObject.PhoneNumber = venuePhone;
       specialSubmitObject.VenueID = '';
-      specialSubmitObject.Username = 'Bill';
+      specialSubmitObject.Username = 'Bob';
+      specialSubmitObject.Geoposition = { latitude: venueLatitude, longitude: venueLongitude };
       specialSubmitObject.Description = $('#special_description').val();
       $.ajax(specialPost);
     };
