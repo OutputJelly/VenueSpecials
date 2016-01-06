@@ -8,7 +8,13 @@ var isAuthenticated = function (req, res, next) {
 
 /* GET home page. */
 router.get('/submit', isAuthenticated, function(req, res, next) {
-  res.render('submit', { title: 'Express', user: req.user});
+    console.log('---username yoyo:', req.user.username);
+    res.render('submit',
+      {
+        title: 'Express',
+        username: req.user.username,
+        user: req.user
+      });
 });
 
 

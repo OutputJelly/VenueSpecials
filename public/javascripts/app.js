@@ -74,7 +74,7 @@ $(document).ready(function(){
       specialSubmitObject.Address = venueAddress;
       specialSubmitObject.PhoneNumber = venuePhone;
       specialSubmitObject.VenueID = '';
-      specialSubmitObject.Username = 'Bill';
+      specialSubmitObject.Username = $('#username').val();
       specialSubmitObject.Description = $('#special_description').val();
       $.ajax(specialPost);
     };
