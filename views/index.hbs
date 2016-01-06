@@ -5,6 +5,7 @@
       <li class='slide'><img src='http://dreamatico.com/data_images/food/food-5.jpg'></li>
       <li class='slide'><img src='https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg'></li>
     </ul>
+    <div class='layer'></div>
   </div>
   <div class='container'>
     <div class='search-bar'>
@@ -20,18 +21,60 @@
   </div>
 </div>
 
+
 <div class='entries'>
   <div class='container'>
     <div class='row'>
       <div class='venue'>
-        <div class='venue-title'>
-          Bob's Burgers
+        <div class='venue-header'>
+          <div class='venue-title'>
+            Bob's Burgers
+          </div>
+          <div class='venue-address'>
+            Address: 12 Burger Lane NE
+          </div>
+          <div class='venue-phonenumber'>
+            Phone: (616) 402-1239
+          </div>
         </div>
-        <div class='venue-address'>
-          Address: 12 Burger Lane NE
-        </div>
-        <div class='venue-phonenumber'>
-          Phone: (616) 402-1239
+        <div class='venue-footer'>
+          <div class='venue-photo'>
+            <img src='http://www.tastyburger.com/wp-content/themes/tastyBurger/images/home/img-large-burger.jpg' class='img-circle'>
+          </div>
+          <div class='special-container'>
+            <div class='special'>
+              <div class='special-date'>
+                Nov 12, 2015
+              </div>
+              <div class='special-description'>
+                $5 off on your next burger purchase
+              </div>
+              <div class='special-verify'>
+                <div class='special-vote'>
+                  <i class="fa fa-thumbs-up special-vote-icon"></i>
+                </div>
+                <div class='special-vote'>
+                  <i class="fa fa-thumbs-down special-vote-icon"></i>
+                </div>
+              </div>
+            </div>
+            <div class='special'>
+              <div class='special-date'>
+                Nov 12, 2015
+              </div>
+              <div class='special-description'>
+                $5 off on your next burger purchase
+              </div>
+              <div class='special-verify'>
+                <div class='special-vote'>
+                  <i class="fa fa-thumbs-up special-vote-icon"></i>
+                </div>
+                <div class='special-vote'>
+                  <i class="fa fa-thumbs-down special-vote-icon"></i>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -44,6 +87,28 @@
 </div>
 
 <script type='text/javascript'>
+  $(document).ready(function() {
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      console.log(pos);
+      $.ajax({
+        url: '/',
+        type: 'POST',
+        data: pos || '',
+        dataType: 'json',
+        success: function() {
+          console.log('Ding dong its done');
+        },
+        error: function() {
+        }
+      });
+    }, function(err) {
+      console.log('error', err);
+    }, {
+      timeout: 10 * 1000,
+      maximumAge: 5 * 60 * 1000
+    });
+  });
+
   slider();
   function slider() {
     var slideCount = $('.slide-reel ul li').length;
