@@ -30,7 +30,7 @@ router.get('/:id', function(req, res, next) {
 
 /* POST /api */
 router.post('/', function(req, res, next) {
-  var query = Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
+  Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
     if (err) console.log(err);
     console.log('Does the venue exist?', venue);
     if (!venue) {
