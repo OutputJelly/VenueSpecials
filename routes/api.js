@@ -10,20 +10,21 @@ var Venue = require('../models/Venue');
 /* GET /api */
 router.get('/', function(req, res, next) {
   console.log(req.body);
-  Venue.find(function(err, specials) {
-    if (err) return (next(err));
-    // res.json(specials);
-  });
   Special.find(function(err, specials) {
     if (err) return (next(err));
     res.json(specials);
   });
 });
 
+router.get('/by_username:username', function(req, res, next) {
+)};
+
+
+
 /* GET /api/id */
 router.get('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findById(function(err, special) {
+  Special.findById(req.params.id, function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
