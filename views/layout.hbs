@@ -26,6 +26,11 @@
             <a href="/users/login">Add Special</a>
             {{/if}}
           </button>
+          {{#if user}}
+          <button type="button" class="btn btn-primary">
+            <a href="/users/profile">Past Posts</a>
+          </button>
+          {{/if}}
           <button type="button" class="btn btn-primary">
             {{#if user}}
             <a href="/users/logout">Sign Out</a>
