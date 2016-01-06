@@ -21,6 +21,9 @@
   </div>
 </div>
 
+{{#if user}}
+Welcome, {{user.username}}.
+{{/if}}
 
 <div class='entries'>
   <div class='container'>
@@ -85,6 +88,7 @@
     </div>
   </div>
 </div>
+
 
 <script type='text/javascript'>
   $(document).ready(function() {
