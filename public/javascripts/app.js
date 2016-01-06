@@ -81,3 +81,7 @@ $(document).ready(function(){
 
     initialize();
 });// end of document ready
+
+var Venue = Backbone.Model.extend();
+
+var  = new ();
