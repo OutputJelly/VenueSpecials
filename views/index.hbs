@@ -11,9 +11,9 @@
     <div class='search-bar'>
       <form action='POST' method=''>
         <div class='input-group input-lg'>
-          <input type='text' class='form-control input-lg' id='search-entry'>
+          <input id="autocomplete" name="search_query" placeholder="Start Typing a Location" class="form-control input-lg" type="text"></input>
           <div class='input-group-btn'>
-            <button type='button' class='btn btn-primary input-lg'>Search</button>
+            <button id='search' type='button' class='btn btn-primary input-lg'>Search</button>
           </div>
         </div>
       </form>
@@ -23,116 +23,6 @@
 
 
 <div class='entries'>
-  <div class='container'>
-    <div class='row'>
-      <div class='venue'>
-        <div class='venue-header'>
-          <div class='venue-title'>
-            Bob's Burgers
-          </div>
-          <div class='venue-address'>
-            Address: 12 Burger Lane NE
-          </div>
-          <div class='venue-phonenumber'>
-            Phone: (616) 402-1239
-          </div>
-        </div>
-        <div class='venue-footer'>
-          <div class='venue-photo'>
-            <img src='http://www.tastyburger.com/wp-content/themes/tastyBurger/images/home/img-large-burger.jpg' class='img-circle'>
-          </div>
-          <div class='special-container'>
-            <div class='special'>
-              <div class='special-date'>
-                Nov 12, 2015
-              </div>
-              <div class='special-description'>
-                $5 off on your next burger purchase
-              </div>
-              <div class='special-verify'>
-                <div class='special-vote'>
-                  <i class="fa fa-thumbs-up special-vote-icon"></i>
-                </div>
-                <div class='special-vote'>
-                  <i class="fa fa-thumbs-down special-vote-icon"></i>
-                </div>
-              </div>
-            </div>
-            <div class='special'>
-              <div class='special-date'>
-                Nov 12, 2015
-              </div>
-              <div class='special-description'>
-                $5 off on your next burger purchase
-              </div>
-              <div class='special-verify'>
-                <div class='special-vote'>
-                  <i class="fa fa-thumbs-up special-vote-icon"></i>
-                </div>
-                <div class='special-vote'>
-                  <i class="fa fa-thumbs-down special-vote-icon"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class='row'>
-      <div class='venue'>
-
-      </div>
-    </div>
+  <div class='container' id='venue-list'>
   </div>
 </div>
-
-<script type='text/javascript'>
-  $(document).ready(function() {
-  //   navigator.geolocation.getCurrentPosition(function(pos) {
-  //     console.log(pos);
-  //     $.ajax({
-  //       url: '/',
-  //       type: 'POST',
-  //       data: pos || '',
-  //       dataType: 'json',
-  //       success: function() {
-  //         console.log('Ding dong its done');
-  //       },
-  //       error: function() {
-  //       }
-  //     });
-  //   }, function(err) {
-  //     console.log('error', err);
-  //   }, {
-  //     timeout: 10 * 1000,
-  //     maximumAge: 5 * 60 * 1000
-  //   });
-   });
-
-  slider();
-  function slider() {
-    var slideCount = $('.slide-reel ul li').length;
-    var slideWidth = $('.slide-reel').width();
-    var slideHeight = '200px';
-    var sliderUlWidth = slideCount * slideWidth;
-
-    $('.slide-reel ul').css({
-        width: sliderUlWidth
-    });
-
-    $('.slide-reel ul li:last-child').prependTo('.slider ul');
-
-    function moveRight() {
-        $('.slide-reel ul').animate({
-            left: -slideWidth
-        }, 1000, function() {
-            $('.slide-reel ul li:first-child').appendTo('.slide-reel ul');
-            $('.slide-reel ul').css('left', '');
-        });
-    };
-    setInterval(function() {
-        moveRight();
-    }, 5000);
-  }
-
-</script>
