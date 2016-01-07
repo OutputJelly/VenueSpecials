@@ -1,9 +1,23 @@
 var mongoose = require('mongoose');
 
+var FlagSchema = new mongoose.Schema({
+  Username: String,
+  SpecialId: String,
+  Date: { type: Date, default: Date.now }
+});
+
+var VerificationSchema = new mongoose.Schema({
+  Username: String,
+  SpecialId: String,
+  Date: { type: Date, default: Date.now }
+});
+
 var SpecialSchema = new mongoose.Schema({
   Username: String,
   Description: String,
-  Date: { type: Date, default: Date.now }
+  Date: { type: Date, default: Date.now },
+  flags: [FlagSchema],
+  verifications: [VerificationSchema]
 });
 
 var VenueSchema = new mongoose.Schema({
@@ -20,5 +34,7 @@ var VenueSchema = new mongoose.Schema({
 
 });
 
+module.exports.Flag = mongoose.model('Flag', FlagSchema, 'flags');
+module.exports.Verification = mongoose.model('Verification', VerificationSchema, 'verifications');
 module.exports.Special = mongoose.model('Special', SpecialSchema, 'specials');
 module.exports.Venue = mongoose.model('Venue', VenueSchema, 'venues');
