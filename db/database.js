@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 
 var connectionString = process.env.DATABASE_URL || process.env.MONGOLAB_URI;
-
+console.log("-------------------------------Attempting to connect to Database");
 mongoose.connect(connectionString);
 
 mongoose.connection.on('connected', function() {
