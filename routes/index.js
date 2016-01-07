@@ -3,7 +3,7 @@ var router = express.Router();
 var Venue = require('../models/Venue')
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', user: req.user, google_api_key: 'process.env.google_api_key' });
+  res.render('index', { title: 'Express', user: req.user, google_api_key: process.env.google_api_key });
 });
 
 router.post('/', function(req, res, next) {
