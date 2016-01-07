@@ -2,10 +2,16 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
+var session = require('express-session');
 
 // TODO --- update this with Jason's model
 var Models = require('../models/Venue');
-var Verification = require('../models/Verification');
+
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+  return next();
+  res.redirect('/users/login');
+}
 
 /* GET /api */
 router.get('/', function(req, res, next) {
@@ -68,6 +74,42 @@ router.post('/', function(req, res, next) {
       });
     }
   });
+});
+
+router.post('/:address/:specialid/verification', function(req, res, next){
+  var verification = {
+    Username: 'username',
+    SpecialId: req.params.specialid
+  };
+  Models.Venue.findOne({'Address': req.params.address}, function(err, venue){
+    if(err) console.log(err);
+    for (var i = 0; i < venue.children.length; i++) {
+      if (venue.children[i]._id = req.params.specialid){
+        venue.children[i].verifications.push(verification);
+        venue.save();
+        res.json(venue);
+        break;
+      }
+    }
+  })
+});
+
+router.post('/:address/:specialid/flag', function(req, res, next){
+  var flag = {
+    Username: 'username',
+    SpecialId: req.params.specialid
+  };
+  Models.Venue.findOne({'Address': req.params.address}, function(err, venue){
+    if(err) console.log(err);
+    for (var i = 0; i < venue.children.length; i++) {
+      if (venue.children[i]._id = req.params.specialid){
+        venue.children[i].flags.push(flag);
+        venue.save();
+        res.json(venue);
+        break;
+      }
+    }
+  })
 });
 
 router.get('/special/:username', function(req, res, next){
