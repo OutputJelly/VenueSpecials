@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var VerificationSchema = new mongoose.Schema({
   Username: String,
-  SpecialID: String,
+  Venue: String,
   Date: Date
 });
 

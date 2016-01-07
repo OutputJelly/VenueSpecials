@@ -3,6 +3,11 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/User');
 var router = express.Router();
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+  return next();
+  res.redirect('/users/login');
+}
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
@@ -46,6 +51,10 @@ router.post('/register', function(req, res){
 router.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
+})
+
+router.get('/profile', isAuthenticated, function(req, res){
+  res.render('profile', {user: req.user});
 })
 
 module.exports = router;
