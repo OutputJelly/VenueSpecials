@@ -14,7 +14,7 @@ if(process.env.NODE_ENV === 'production'){
 
 console.log("-------------------------------Attempting to connect to Database");
 console.log('process.evn.MOGOLAB_URI: ' + process.env.MONGOLAB_URI);
-console.log('connection string' + connectionString);
+console.log('connection string: ' + connectionString);
 
 mongoose.connect(connectionString);
 
