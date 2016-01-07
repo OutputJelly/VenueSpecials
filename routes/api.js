@@ -33,18 +33,11 @@ router.get('/:id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
     if (err) console.log(err);
+    console.log('Does the venue exist?', venue);
     var special = {
       Username: req.user.username,
       Description: req.body.Description
-    }
-    console.log(special);
-    console.log('Does the venue exist?', venue);
-    if(venue){
-      venue.children.push({Username: req.user.username,
-      Description: req.body.Description});
-      venue.save();
-      console.log(venue);
-    }
+    };
     if (!venue) {
       console.log('venue doesnst exist, creating new one.');
 
@@ -60,8 +53,19 @@ router.post('/', function(req, res, next) {
         console.log('Created new Venue', venue);
       });
     }
-
-
+    else {
+      Models.Venue.findOneAndUpdate({
+        'Address': req.body.Address
+      },
+      {},
+      function(err, venue) {
+        if (err) return (next(err));
+        console.log('---pushing---');
+        venue.children.push(special);
+        venue.save();
+        res.json(special);
+      });
+    }
   });
 });
 
