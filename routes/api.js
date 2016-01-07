@@ -85,8 +85,8 @@ router.delete('/:id', function(req, res, next) {
   });
 });
 
+/* GET /api/venues/geo/.... */
 router.get('/venues/geo/:lat,:long,:radius', function(req, res, next) {
-  console.log('wtf?');
   Models.Venue.find({ Geoposition: { $geoWithin : { $center : [[req.params.lat, req.params.long], req.params.radius] }}}, function(err, venues) {
     if (err) console.log(err);
     res.json(venues);
