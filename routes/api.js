@@ -5,15 +5,16 @@ var mongoose = require('mongoose');
 
 // TODO --- update this with Jason's model
 var Models = require('../models/Venue');
+var Verification = require('../models/Verification');
 
 /* GET /api */
 router.get('/', function(req, res, next) {
   console.log(req.body);
-  Venue.find(function(err, specials) {
+  Models.Venue.find(function(err, specials) {
     if (err) return (next(err));
     // res.json(specials);
   });
-  Special.find(function(err, specials) {
+  Models.Special.find(function(err, specials) {
     if (err) return (next(err));
     res.json(specials);
   });
@@ -22,7 +23,7 @@ router.get('/', function(req, res, next) {
 /* GET /api/id */
 router.get('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findById(function(err, special) {
+  Models.Venue.findById(function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
@@ -32,13 +33,20 @@ router.get('/:id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
     if (err) console.log(err);
+    var special = {
+      Username: req.user.username,
+      Description: req.body.Description
+    }
+    console.log(special);
     console.log('Does the venue exist?', venue);
+    if(venue){
+      venue.children.push({Username: req.user.username,
+      Description: req.body.Description});
+      venue.save();
+      console.log(venue);
+    }
     if (!venue) {
       console.log('venue doesnst exist, creating new one.');
-      var special = {
-        Username: 'bob',
-        Description: req.body.Description
-      };
 
       Models.Venue.create({
         Name:  req.body.Name,
@@ -52,6 +60,8 @@ router.post('/', function(req, res, next) {
         console.log('Created new Venue', venue);
       });
     }
+
+
   });
 });
 
@@ -80,6 +90,54 @@ router.delete('/:id', function(req, res, next) {
   Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
     res.json(special);
+  });
+});
+
+
+router.get('/special/:username', function(req, res, next){
+  console.log(req.params.username);
+  var user = req.params.username;
+  Models.Venue.find({
+    'children.Username': req.params.username
+  },
+  function(err, venues) {
+   console.log(err);
+   console.log('venues.length: ', venues.length);
+   for (var i=0; i < venues.length; i++) {
+     var tmpSpecials = [];
+     for (var j=0; j < venues[i].children.length; j++) {
+       if (venues[i].children[j].Username == req.params.username) {
+         tmpSpecials.push(venues[i].children[j]);
+       }
+     }
+     venues[i].children = tmpSpecials;
+   }
+   console.log(venues);
+   res.json(venues);
+ })
+});
+
+router.get('/venue/:address', function(req, res, next){
+  console.log(req.params.address);
+  Models.Venue.find({
+    'Address': req.params.address
+  },
+  function(err, specials) {
+    console.log(err);
+    console.log(specials);
+    res.json(specials);
+  })
+});
+
+router.get('/verifications/:address', function(req, res, next){
+  console.log(req.params.address);
+  Verification.find({
+    'Venue': req.params.address
+  },
+function(err, specials){
+    console.log(err);
+    console.log(specials)
+    res.json(specials);
   });
 });
 
