@@ -9,11 +9,11 @@ var Models = require('../models/Venue');
 /* GET /api */
 router.get('/', function(req, res, next) {
   console.log(req.body);
-  Venue.find(function(err, specials) {
+  Models.Venue.find(function(err, specials) {
     if (err) return (next(err));
     // res.json(specials);
   });
-  Special.find(function(err, specials) {
+  Models.Special.find(function(err, specials) {
     if (err) return (next(err));
     res.json(specials);
   });
@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 /* GET /api/id */
 router.get('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findById(function(err, special) {
+  Models.Special.findById(function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
@@ -30,11 +30,14 @@ router.get('/:id', function(req, res, next) {
 
 /* POST /api */
 router.post('/', function(req, res, next) {
+  var geo = JSON.parse(req.body.Geoposition);
+
   Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
     if (err) console.log(err);
     console.log('Does the venue exist?', venue);
     if (!venue) {
       console.log('venue doesnst exist, creating new one.');
+
       var special = {
         Username: 'bob',
         Description: req.body.Description
@@ -44,8 +47,7 @@ router.post('/', function(req, res, next) {
         Name:  req.body.Name,
         Address: req.body.Address || 'None',
         PhoneNumber: req.body.PhoneNumber || 'None',
-        Longitude: req.body.Longitude,
-        Latitude: req.body.Latitude,
+        Geoposition: [geo.latitude, geo.longitude],
         children: [special]
       }, function(err, venue) {
         if (err) console.log('ERROR', err);
@@ -59,7 +61,7 @@ router.post('/', function(req, res, next) {
 /* PUT /api/id */
 router.put('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
+  Models.Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
@@ -68,7 +70,7 @@ router.put('/:id', function(req, res, next) {
 /* PATCH /api/id */
 router.patch('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
+  Models.Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
@@ -77,9 +79,17 @@ router.patch('/:id', function(req, res, next) {
 /* DELETE /api/id */
 router.delete('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
+  Models.Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
     res.json(special);
+  });
+});
+
+/* GET /api/venues/geo/.... */
+router.get('/venues/geo/:lat,:long,:radius', function(req, res, next) {
+  Models.Venue.find({ Geoposition: { $geoWithin : { $center : [[req.params.lat, req.params.long], req.params.radius] }}}, function(err, venues) {
+    if (err) console.log(err);
+    res.json(venues);
   });
 });
 
