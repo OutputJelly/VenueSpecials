@@ -143,6 +143,8 @@ function(err, specials){
     console.log(err);
     console.log(specials)
     res.json(specials);
+  })
+});
 
 /* GET /api/venues/geo/.... */
 router.get('/venues/geo/:lat,:long,:radius', function(req, res, next) {
