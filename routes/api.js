@@ -41,7 +41,7 @@ router.post('/', function(req, res, next) {
     };
     if (!venue) {
       console.log('venue doesnst exist, creating new one.');
-      
+
       Models.Venue.create({
         Name:  req.body.Name,
         Address: req.body.Address || 'None',
@@ -52,6 +52,17 @@ router.post('/', function(req, res, next) {
         if (err) console.log('ERROR', err);
         console.log('Created new Venue', venue);
       });
+    } else {
+      Models.Venue.findOneAndUpdate({
+        'Address': req.body.Address
+      },
+      {},
+      function(err, venue){
+        if (err) return (next(err));
+        venue.children.push(special);
+        venue.save();
+        console.log(special);
+      })
     }
     else {
       Models.Venue.findOneAndUpdate({
@@ -120,6 +131,16 @@ router.delete('/:id', function(req, res, next) {
     res.json(special);
   });
 });
+
+router.get('/address/:address', function(req, res, next){
+   Models.Venue.find({
+      'Address': req.params.address
+   },
+   function(err, specials) {
+     console.log(err);
+     console.log(specials);
+     res.json(specials);
+   })
 
 /* GET /api/venues/geo/.... */
 router.get('/venues/geo/:lat,:long,:radius', function(req, res, next) {
