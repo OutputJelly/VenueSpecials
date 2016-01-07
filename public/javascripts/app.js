@@ -99,9 +99,17 @@ $(document).ready(function(){
 
   }
   validateSubmit();
-
+  registerHide();
 
 });// end of document ready
+
+function registerHide() {
+  $("#register").hide();
+  $("#registerbtn").click(function() {
+  $("#register").show();
+  $("#registerbtn").hide();
+  });
+};
 
 function validateSubmit() {
   $('.form_submit > input').keyup(function(){
@@ -232,6 +240,13 @@ app.VenueView = Backbone.View.extend({
     }).join('');
     data.children = children;
     this.render();
+  },
+  events: {
+    'click .special': 'specialUser'
+  },
+  specialUser: function(){
+    var user = $(".special").prop('id');
+    $(".special").append("<div id='specialPoster'>Posted by: <a href='/users/profile/'" + user + '>' + user + "</div>");
   },
   render: function() {
     var data = this.model.attributes;
