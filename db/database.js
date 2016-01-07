@@ -2,9 +2,14 @@ require('dotenv').load();
 
 //database stuff here
 var mongoose = require('mongoose');
-
+// var connectionString = 'mongodb://localhost/'
+// if(process.env.NODE_ENV === 'production'){
+//   connectionString = process.env.MONGOLAB_URI;
+// }
 var connectionString = process.env.DATABASE_URL || process.env.MONGOLAB_URI;
 console.log("-------------------------------Attempting to connect to Database");
+console.log(process.env.MONGOLAB_URI);
+console.log(connectionString);
 mongoose.connect(connectionString);
 
 mongoose.connection.on('connected', function() {
