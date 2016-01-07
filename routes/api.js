@@ -9,11 +9,11 @@ var Models = require('../models/Venue');
 /* GET /api */
 router.get('/', function(req, res, next) {
   console.log(req.body);
-  Venue.find(function(err, specials) {
+  Models.Venue.find(function(err, specials) {
     if (err) return (next(err));
     // res.json(specials);
   });
-  Special.find(function(err, specials) {
+  Models.Special.find(function(err, specials) {
     if (err) return (next(err));
     res.json(specials);
   });
@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 /* GET /api/id */
 router.get('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findById(function(err, special) {
+  Models.Special.findById(function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
@@ -30,6 +30,8 @@ router.get('/:id', function(req, res, next) {
 
 /* POST /api */
 router.post('/', function(req, res, next) {
+  var geo = JSON.parse(req.body.Geoposition);
+
   Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
     if (err) console.log(err);
     console.log('Does the venue exist?', venue);
@@ -39,17 +41,20 @@ router.post('/', function(req, res, next) {
     };
     if (!venue) {
       console.log('venue doesnst exist, creating new one.');
+<<<<<<< HEAD
       // var special = {
       //   Username: req.user.username,
       //   Description: req.body.Description
       // };
 
+=======
+      
+>>>>>>> e1ca7e946f0e9bad0a70625c568346eae750c0ee
       Models.Venue.create({
         Name:  req.body.Name,
         Address: req.body.Address || 'None',
         PhoneNumber: req.body.PhoneNumber || 'None',
-        Longitude: req.body.Longitude,
-        Latitude: req.body.Latitude,
+        Geoposition: [geo.latitude, geo.longitude],
         children: [special]
       }, function(err, venue) {
         if (err) console.log('ERROR', err);
@@ -67,14 +72,51 @@ router.post('/', function(req, res, next) {
         console.log(special);
       })
     }
+    else {
+      Models.Venue.findOneAndUpdate({
+        'Address': req.body.Address
+      },
+      {},
+      function(err, venue) {
+        if (err) return (next(err));
+        console.log('---pushing---');
+        venue.children.push(special);
+        venue.save();
+        res.json(special);
+      });
+    }
   });
+});
+
+
+router.get('/special/:username', function(req, res, next){
+ console.log(req.params.username);
+ var user = req.params.username;
+ Models.Venue.find({
+   'children.Username': req.params.username
+ },
+ function(err, venues) {
+   console.log(err);
+   console.log('venues.length: ', venues.length);
+   for (var i=0; i < venues.length; i++) {
+     var tmpSpecials = [];
+     for (var j=0; j < venues[i].children.length; j++) {
+       if (venues[i].children[j].Username == req.params.username) {
+         tmpSpecials.push(venues[i].children[j]);
+       }
+     }
+     venues[i].children = tmpSpecials;
+   }
+   console.log(venues);
+   res.json(venues);
+ })
 });
 
 
 /* PUT /api/id */
 router.put('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
+  Models.Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
@@ -83,7 +125,7 @@ router.put('/:id', function(req, res, next) {
 /* PATCH /api/id */
 router.patch('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
+  Models.Special.findByIdAndUpdate(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
@@ -92,12 +134,13 @@ router.patch('/:id', function(req, res, next) {
 /* DELETE /api/id */
 router.delete('/:id', function(req, res, next) {
   console.log(req.body);
-  Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
+  Models.Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
     if (err) return (next(err));
     res.json(special);
   });
 });
 
+<<<<<<< HEAD
 router.get('/special/:username', function(req, res, next){
   console.log(req.params.username);
   var user = req.params.username;
@@ -141,6 +184,14 @@ router.get('/address/:address', function(req, res, next){
      console.log(specials);
      res.json(specials);
    })
+=======
+/* GET /api/venues/geo/.... */
+router.get('/venues/geo/:lat,:long,:radius', function(req, res, next) {
+  Models.Venue.find({ Geoposition: { $geoWithin : { $center : [[req.params.lat, req.params.long], req.params.radius] }}}, function(err, venues) {
+    if (err) console.log(err);
+    res.json(venues);
+  });
+>>>>>>> e1ca7e946f0e9bad0a70625c568346eae750c0ee
 });
 
 module.exports = router;
