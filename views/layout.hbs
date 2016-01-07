@@ -88,5 +88,42 @@
         </div>
       </div>
     </script>
+
+    <script type="text/template" id="profile-venue-template">
+      <div class='row'>
+        <div class='profile-venue'>
+          <div class='profile-venue-header'>
+            <div class='venue-title'>
+                <%= Name %>
+            </div>
+            <div class='venue-address'>
+                <%= Address %>
+            </div>
+          </div>
+          <div class='profile-venue-footer'>
+            <div class='profile-special-container'>
+                <%= children %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+      <script type='text/template' id='profile-special-template'>
+         <div class='special'>
+            <div class='special-date'>
+                <%= Date %>
+            </div>
+            <div class='profile-special-description'>
+                <%= Description %>
+            </div>
+            <div class='special-verify'>
+                <div class='special-vote'>
+                    <i class="fa fa-trash-o fa-lg"></i>
+                </div>
+            </div>
+          </div>
+      </script>
+
   </body>
 </html>
