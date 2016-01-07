@@ -7,7 +7,7 @@ var isAuthenticated = function (req, res, next) {
 }
 
 /* GET home page. */
-router.get('/submit', isAuthenticated, function(req, res, next) {
+router.get('/', isAuthenticated, function(req, res, next) {
     console.log('---username yoyo:', req.user.username);
     res.render('submit',
       {
