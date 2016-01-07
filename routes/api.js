@@ -33,12 +33,16 @@ router.post('/', function(req, res, next) {
   Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
     if (err) console.log(err);
     console.log('Does the venue exist?', venue);
+    var special = {
+      Username: req.user.username,
+      Description: req.body.Description
+    };
     if (!venue) {
       console.log('venue doesnst exist, creating new one.');
-      var special = {
-        Username: 'bob',
-        Description: req.body.Description
-      };
+      // var special = {
+      //   Username: req.user.username,
+      //   Description: req.body.Description
+      // };
 
       Models.Venue.create({
         Name:  req.body.Name,
@@ -51,6 +55,17 @@ router.post('/', function(req, res, next) {
         if (err) console.log('ERROR', err);
         console.log('Created new Venue', venue);
       });
+    } else {
+      Models.Venue.findOneAndUpdate({
+        'Address': req.body.Address
+      },
+      {},
+      function(err, venue){
+        if (err) return (next(err));
+        venue.children.push(special);
+        venue.save();
+        console.log(special);
+      })
     }
   });
 });
@@ -81,6 +96,51 @@ router.delete('/:id', function(req, res, next) {
     if (err) return (next(err));
     res.json(special);
   });
+});
+
+router.get('/special/:username', function(req, res, next){
+  console.log(req.params.username);
+  var user = req.params.username;
+  Models.Venue.find({
+    'children.Username':req.params.username
+  },
+  function(err, specials) {
+    console.log(err);
+    console.log(specials);
+    for (var i = 0; i < specials.length; i++){
+      console.log('---------');
+      console.log(specials[i]);
+      console.log('---------');
+      var tmpSpecials = [];
+      specials[i].children.forEach(function(key){
+        console.log('----keyyyy-----');
+        console.log(key);
+        console.log('----keyyyy-----');
+        if (key.Username == req.params.username) {
+          console.log('----looooooop---------');
+          console.log(key.Username);
+          console.log('----looooooop---------');
+          tmpSpecials.push(key);
+          console.log('-----temp-----');
+          console.log(tmpSpecials);
+          console.log('-----temp-----');
+        }
+        specials[i].children = tmpSpecials;
+      })
+    }
+    res.json(specials);
+  })
+});
+
+router.get('/address/:address', function(req, res, next){
+   Models.Venue.find({
+      'Address': req.params.address
+   },
+   function(err, specials) {
+     console.log(err);
+     console.log(specials);
+     res.json(specials);
+   })
 });
 
 module.exports = router;
