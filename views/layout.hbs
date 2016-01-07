@@ -5,10 +5,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script type="text/javascript" src='/javascripts/jquery.js'></script>
+    <script type="text/javascript" src='../javascripts/jquery.js'></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz0IVOUlwIaZdq5zsKUaNqkEBjdDCqqQc&libraries=places"></script>
     <script type="text/javascript" src='/javascripts/underscore.js'></script>
     <script type="text/javascript" src='/javascripts/backbone.js'></script>
+    <script type="text/javascript" src="../javascripts/app.js"></script>
   </head>
   <body>
     <header>
@@ -42,5 +43,50 @@
       {{/if}}
     </div>
       {{{body}}}
+
+    <script type="text/template" id="venue-template">
+      <div class='row'>
+        <div class='venue'>
+          <div class='venue-header'>
+            <div class='venue-title'>
+              <%= Name %>
+            </div>
+            <div class='venue-address'>
+              <%= Address %>
+            </div>
+            <div class='venue-phonenumber'>
+              <%= PhoneNumber %>
+            </div>
+          </div>
+          <div class='venue-footer'>
+            <div class='venue-photo'>
+              <img src='http://www.tastyburger.com/wp-content/themes/tastyBurger/images/home/img-large-burger.jpg' class='img-circle'>
+            </div>
+            <div class='special-container'>
+              <%= children %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <script type='text/template' id='special-template'>
+      <div class='special'>
+        <div class='special-date'>
+          <%= Date %>
+        </div>
+        <div class='special-description'>
+          <%= Description %>
+        </div>
+        <div class='special-verify'>
+          <div class='special-vote'>
+            <i class="fa fa-thumbs-up special-vote-icon"></i>
+          </div>
+          <div class='special-vote'>
+            <i class="fa fa-thumbs-down special-vote-icon"></i>
+          </div>
+        </div>
+      </div>
+    </script>
   </body>
 </html>

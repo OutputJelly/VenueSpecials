@@ -10,8 +10,10 @@ var VenueSchema = new mongoose.Schema({
   Name: String,
   Address: String,
   PhoneNumber: String,
-  Longitude: Number,
-  Latitude: Number,
+  Geoposition: {
+    type: [Number],
+    index: '2d'
+  },
   children: [SpecialSchema]
 });
 
