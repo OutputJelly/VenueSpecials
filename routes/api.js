@@ -1,11 +1,18 @@
 var express = require('express');
 var router = express.Router();
+var https = require('https');
 
 var mongoose = require('mongoose');
+var session = require('express-session');
 
 // TODO --- update this with Jason's model
 var Models = require('../models/Venue');
-var Verification = require('../models/Verification');
+
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated())
+  return next();
+  res.redirect('/users/login');
+}
 
 /* GET /api */
 router.get('/', function(req, res, next) {
@@ -33,41 +40,119 @@ router.get('/:id', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var geo = JSON.parse(req.body.Geoposition);
 
-  Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
-    if (err) console.log(err);
-    console.log('Does the venue exist?', venue);
-    var special = {
-      Username: req.user.username,
-      Description: req.body.Description
-    };
-    if (!venue) {
-      console.log('venue doesnst exist, creating new one.');
+  https.get('https://maps.googleapis.com/maps/api/place/details/json?placeid='+req.body.placeId+'&key=AIzaSyDz0IVOUlwIaZdq5zsKUaNqkEBjdDCqqQc', function(res) {
+    var data = '';
 
-      Models.Venue.create({
-        Name:  req.body.Name,
-        Address: req.body.Address || 'None',
-        PhoneNumber: req.body.PhoneNumber || 'None',
-        Geoposition: [geo.latitude, geo.longitude],
-        children: [special]
-      }, function(err, venue) {
-        if (err) console.log('ERROR', err);
-        console.log('Created new Venue', venue);
-      });
-    }
-    else {
-      Models.Venue.findOneAndUpdate({
-        'Address': req.body.Address
-      },
-      {},
-      function(err, venue) {
-        if (err) return (next(err));
-        console.log('---pushing---');
-        venue.children.push(special);
-        venue.save();
-        res.json(special);
-      });
-    }
+    res.on('data', function(chunk)  {
+      data += chunk;
+    });
+
+    res.on('error', function(e) {
+      console.error('error', e);
+    });
+
+    res.on('end', function() {
+      data = JSON.parse(data);
+
+      photoRequest((data.result.photos) ? data.result.photos[0].photo_reference : '');
+    });
   });
+
+  function photoRequest(photoRef) {
+    if (!photoRef) {
+      return createModel()
+    }
+    https.get('https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference='+photoRef+'&key=AIzaSyDz0IVOUlwIaZdq5zsKUaNqkEBjdDCqqQc', function(res) {
+      var data = '';
+
+      res.on('data', function(chunk)  {
+        data += chunk;
+      });
+
+      res.on('error', function(e) {
+        console.error('error', e);
+      });
+
+      res.on('end', function() {
+        createModel(res.headers.location);
+      });
+    });
+  }
+
+  function createModel(photoLink) {
+    Models.Venue.findOne({ 'Address': req.body.Address}, function(err, venue){
+      if (err) console.log(err);
+      console.log('Does the venue exist?', venue);
+      var special = {
+        Username: req.user.username,
+        Description: req.body.Description
+      };
+      if (!venue) {
+        console.log('venue doesnst exist, creating new one.');
+
+        Models.Venue.create({
+          Name:  req.body.Name,
+          Address: req.body.Address || 'None',
+          PhoneNumber: req.body.PhoneNumber || 'None',
+          Geoposition: [geo.latitude, geo.longitude],
+          Photo: photoLink,
+          children: [special]
+        }, function(err, venue) {
+          if (err) console.log('ERROR', err);
+          console.log('Created new Venue', venue);
+        });
+      }
+      else {
+        Models.Venue.findOneAndUpdate({
+          'Address': req.body.Address
+        },
+        {},
+        function(err, venue) {
+          if (err) return (next(err));
+          console.log('---pushing---');
+          venue.children.push(special);
+          venue.save();
+          res.json(special);
+        });
+      }
+    });
+  }
+});
+
+router.post('/:address/:specialid/verification', function(req, res, next){
+  var verification = {
+    Username: 'username',
+    SpecialId: req.params.specialid
+  };
+  Models.Venue.findOne({'Address': req.params.address}, function(err, venue){
+    if(err) console.log(err);
+    for (var i = 0; i < venue.children.length; i++) {
+      if (venue.children[i]._id = req.params.specialid){
+        venue.children[i].verifications.push(verification);
+        venue.save();
+        res.json(venue);
+        break;
+      }
+    }
+  })
+});
+
+router.post('/:address/:specialid/flag', function(req, res, next){
+  var flag = {
+    Username: 'username',
+    SpecialId: req.params.specialid
+  };
+  Models.Venue.findOne({'Address': req.params.address}, function(err, venue){
+    if(err) console.log(err);
+    for (var i = 0; i < venue.children.length; i++) {
+      if (venue.children[i]._id = req.params.specialid){
+        venue.children[i].flags.push(flag);
+        venue.save();
+        res.json(venue);
+        break;
+      }
+    }
+  })
 });
 
 router.get('/special/:username', function(req, res, next){
