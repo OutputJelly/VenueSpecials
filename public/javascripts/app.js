@@ -97,7 +97,27 @@ $(document).ready(function(){
     };
 
   }
+  validateSubmit();
+
+
 });// end of document ready
+
+function validateSubmit() {
+  $('.form_submit > input').keyup(function(){
+    var empty = false;
+    $('.form_submit > input').each(function(){
+      if($(this).val() == ''){
+        empty = true;
+      }
+    });
+    if (empty) {
+      $("#submitSpecial").prop('disabled', 'disabled');
+    } else {
+      $('#submitSpecial').removeAttr('disabled');
+    }
+  });
+};
+
 
 function pageSharedFunctionality() {
   var defaultBounds = new google.maps.LatLngBounds(
