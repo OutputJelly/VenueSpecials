@@ -1,3 +1,5 @@
+require('dotenv').load();
+
 //database stuff here
 var mongoose = require('mongoose');
 
