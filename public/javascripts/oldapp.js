@@ -10,9 +10,71 @@ var venuePhone;
 var placeId;
 var venueLatitude;
 var venueLongitude;
+var map;
 
 var specialSubmitObject = {};
 
+function initMap(position) {
+  console.log('executed?');
+  //var center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  var center = new google.maps.LatLng(-33.8665, 151.1956);
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: center,
+    zoom: 8,
+    scrollwheel: false
+  });
+
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    var initialLocation = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+    map.setCenter(initialLocation);
+  }, function(err) {
+    console.log('error', err);
+  }, {
+    timeout: 10 * 1000,
+    maximumAge: 5 * 60 * 1000
+  });
+
+  var input = document.getElementById("autocomplete")  //Specify textbox
+    var options = {              //Set options for search bar
+        bounds: defaultBounds
+  };
+
+  var defaultBounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(-90, -180),
+        new google.maps.LatLng(90, 180)
+  );
+
+  autocomplete = new google.maps.places.Autocomplete(input,options);
+  autocomplete.addListener('place_changed',getPlaceId);
+
+
+}
+
+function getPlaceId(){
+      var place = autocomplete.getPlace();
+      venueName = place.name;
+      console.log(place);
+      // console.log('---------');
+      // console.log(venueName);
+      // console.log('---------');
+      venueAddress = place.formatted_address;
+      // console.log('---------');
+      // console.log(venueAddress);
+      // console.log('---------');
+      venuePhone = place.formatted_phone_number;
+      // console.log('---------');
+      // console.log(venuePhone);
+      // console.log('---------');
+      var placeId = place.place_id;
+      // console.log(placeId);
+      // console.log('---------');
+      // console.log(place);
+      // console.log('---------');
+      venueLongitude = place.geometry.location.lng();
+      // console.log(venueLongitude);
+      venueLatitude = place.geometry.location.lat();
+      // console.log(venueLatitude);
+  };
 
 var specialPost = {
   type: 'POST',
@@ -77,7 +139,6 @@ $(document).ready(function(){
 
   } else if (window.location.pathname == '/submit') {
 
-    pageSharedFunctionality();
 
   console.log("JS file linked");
 
@@ -89,7 +150,6 @@ $(document).ready(function(){
       specialSubmitObject.Name = venueName;
       specialSubmitObject.Address = venueAddress;
       specialSubmitObject.PhoneNumber = venuePhone;
-      specialSubmitObject.placeId = placeId;
       specialSubmitObject.Geoposition = JSON.stringify({latitude: venueLatitude, longitude: venueLongitude});
       specialSubmitObject.Username = $('#username').val();
       specialSubmitObject.Description = $('#special_description').val();
@@ -98,69 +158,11 @@ $(document).ready(function(){
     };
 
   }
-  validateSubmit();
-
-
 });// end of document ready
 
-function validateSubmit() {
-  $('.form_submit > input').keyup(function(){
-    var empty = false;
-    $('.form_submit > input').each(function(){
-      if($(this).val() == ''){
-        empty = true;
-      }
-    });
-    if (empty) {
-      $("#submitSpecial").prop('disabled', 'disabled');
-    } else {
-      $('#submitSpecial').removeAttr('disabled');
-    }
-  });
-};
-
-
 function pageSharedFunctionality() {
-  var defaultBounds = new google.maps.LatLngBounds(
-        new google.maps.LatLng(-90, -180),
-        new google.maps.LatLng(90, 180)
-  );
 
-  var input = document.getElementById("autocomplete")  //Specify textbox
-    var options = {              //Set options for search bar
-        bounds: defaultBounds
-  };
 
-  function initialize(){
-      autocomplete = new google.maps.places.Autocomplete(input,options);
-      autocomplete.addListener('place_changed',getPlaceId);
-  };
-
-  function getPlaceId(){
-        var place = autocomplete.getPlace();
-        venueName = place.name;
-        // console.log('---------');
-        // console.log(venueName);
-        // console.log('---------');
-        venueAddress = place.formatted_address;
-        // console.log('---------');
-        // console.log(venueAddress);
-        // console.log('---------');
-        venuePhone = place.formatted_phone_number;
-        // console.log('---------');
-        // console.log(venuePhone);
-        // console.log('---------');
-        placeId = place.place_id;
-        console.log(placeId);
-        // console.log('---------');
-        // console.log(place);
-        // console.log('---------');
-        venueLongitude = place.geometry.location.lng();
-        // console.log(venueLongitude);
-        venueLatitude = place.geometry.location.lat();
-        // console.log(venueLatitude);
-  };
-  initialize();
 }
 
 

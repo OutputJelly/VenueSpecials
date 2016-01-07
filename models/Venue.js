@@ -28,7 +28,10 @@ var VenueSchema = new mongoose.Schema({
     type: [Number],
     index: '2d'
   },
+  Photo: { type: String, default: '/images/special.png' },
   children: [SpecialSchema]
+
+
 });
 
 module.exports.Flag = mongoose.model('Flag', FlagSchema, 'flags');
