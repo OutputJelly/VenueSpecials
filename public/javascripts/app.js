@@ -157,26 +157,12 @@ function pageSharedFunctionality() {
   function getPlaceId(){
         var place = autocomplete.getPlace();
         venueName = place.name;
-        // console.log('---------');
-        // console.log(venueName);
-        // console.log('---------');
         venueAddress = place.formatted_address;
-        // console.log('---------');
-        // console.log(venueAddress);
-        // console.log('---------');
         venuePhone = place.formatted_phone_number;
-        // console.log('---------');
-        // console.log(venuePhone);
-        // console.log('---------');
         placeId = place.place_id;
         console.log(placeId);
-        // console.log('---------');
-        // console.log(place);
-        // console.log('---------');
         venueLongitude = place.geometry.location.lng();
-        // console.log(venueLongitude);
         venueLatitude = place.geometry.location.lat();
-        // console.log(venueLatitude);
   };
   initialize();
 }

@@ -1,15 +1,22 @@
+
+
+
+
+
 /**************************** VARIABLES ****************************/
-
-
-@bg: rgb(12, 180, 133);
-// @bg: rgb(161,178,97);
+@bg: rgb(215,243,255);
 
 @venueborder: black;
+
+@venue-header: rgb(246, 246, 246);
+@venue-footer: rgb(246, 246, 246);
+@special-color: rgb(215,243,255);
 
 /**************************** GENERAL ****************************/
 
 a {
-  color: #00B7FF;
+  // color: #00B7FF;
+  color: white;
 }
 
 .layer {
@@ -51,6 +58,9 @@ html, body { height: 100%; margin: 0; padding: 0; }
 //   width: 80%;
 // }
 
+body{
+  background: white;
+}
 /**************************** HEADER ****************************/
 
 header {
@@ -70,6 +80,11 @@ header {
   text-decoration: none;
   color: inherit;
 }
+
+.btn {
+  color: white;
+}
+
 
 /**************************** SEARCH ****************************/
 
@@ -137,8 +152,7 @@ header {
 
 .venue-header {
   height: 30%;
-  background-image: linear-gradient(rgba(251, 251, 251, .3), rgba(0, 0, 0, 0.2));
-  background-color: rgb(14, 193, 230);
+  background: rgb(246, 246, 246);
   border-bottom: 2px solid @venueborder;
   clear: both;
 }
@@ -146,7 +160,7 @@ header {
 .venue-footer {
   height: 70%;
   width: 100%;
-  background: rgb(230, 230, 230);
+  background: rgb(246, 246, 246);
 }
 
 .venue-title {
@@ -191,8 +205,7 @@ header {
   padding-bottom: 10px;
   border-bottom: 1px solid black;
   line-height: 30px;
-  background-image: linear-gradient(rgba(251, 251, 251, .1), rgba(0, 0, 0, 0.1));
-  background-color: rgb(209, 209, 209);
+  background: rgb(215,243,255);
 }
 
 .special:hover {
@@ -269,7 +282,7 @@ header {
 .profile-venue-header {
   height: 30%;
   background-image: linear-gradient(rgba(251, 251, 251, .3), rgba(0, 0, 0, 0.2));
-  background-color: rgb(14, 193, 230);
+  background: @venue-header;
   border-bottom: 2px solid rgb(108, 108, 108);
   clear: both;
 }
@@ -277,7 +290,7 @@ header {
 .profile-venue-footer {
   height: 70%;
   width: 100%;
-  background: rgb(230, 230, 230);
+  background: @venue-footer;
 }
 
 .profile-special-description{

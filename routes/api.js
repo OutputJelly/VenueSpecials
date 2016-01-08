@@ -257,6 +257,26 @@ function(err, specials){
   })
 });
 
+router.get('/special/:venueid/:specialid', function(req,res, next){
+  console.log(req.params.username);
+  console.log(req.params.id);
+  Models.Venue.findById(req.params.venueid, function(err,venue) {
+    for (var i=0; i < venue.children.length; i++){
+      console.log(venue.children[i]);
+
+    }
+    if (err) console.log(err);
+    res.json(venue);
+  });
+});
+// router.delete('/:id', function(req, res, next) {
+//   console.log(req.body);
+//   Models.Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
+//     if (err) return (next(err));
+//     res.json(special);
+//   });
+// });
+
 /* GET /api/venues/geo/.... */
 router.get('/venues/geo/:lat,:long,:radius', function(req, res, next) {
   Models.Venue.find({ Geoposition: { $geoWithin : { $center : [[req.params.lat, req.params.long], req.params.radius] }}}, function(err, venues) {
