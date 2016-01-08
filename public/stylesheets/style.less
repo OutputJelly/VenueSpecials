@@ -23,6 +23,27 @@ a {
 
 html, body { height: 100%; margin: 0; padding: 0; }
 
+.vote-box {
+  display: none;
+  position: absolute;
+  z-index: 10;
+  right: -20px;
+  top: 23px;
+  border: 1px solid black;
+  width: 100px;
+  height: 35px;
+  background: rgb(224, 224, 224);
+  border-radius: 10px;
+}
+
+.votes {
+  color: rgb(141, 219, 104);
+  text-shadow: 0.5px 0.5px 0.5px black;
+  text-align: center;
+  line-height: 35px;
+  font-size: 12px;
+}
+
 // #map {
 //   background-color: black;
 //   margin: 40px auto;
@@ -193,6 +214,7 @@ header {
 }
 
 .special-vote {
+  position: relative;
   float: left;
   margin-right: 15px;
   // width: 20px;

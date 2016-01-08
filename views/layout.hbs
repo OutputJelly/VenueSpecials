@@ -69,7 +69,7 @@
     </script>
 
     <script type='text/template' id='special-template'>
-      <div class='special'>
+      <div class='special' <% if (verifications > 0) { %> <%= "style='background-color: rgb(65, 201, 67);'"%> <% } %>>
         <div class='special-date'>
           <%= Date %>
         </div>
@@ -77,11 +77,13 @@
           <%= Description %>
         </div>
         <div class='special-verify'>
-          <div class='special-vote'>
+          <div class='special-vote' data-id=<%= _id %>>
+            <div class='vote-box'>
+              <div class='votes'>
+                Verifications: <%= verifications %>
+              </div>
+            </div>
             <i class="fa fa-thumbs-up special-vote-icon"></i>
-          </div>
-          <div class='special-vote'>
-            <i class="fa fa-thumbs-down special-vote-icon"></i>
           </div>
         </div>
       </div>
