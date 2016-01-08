@@ -1,6 +1,6 @@
 # The Specialist
 
-[The Specialist Screenshot](http://imgur.com/JD9ZCyo)
+[The Specialist Screenshot](http://imgur.com/JD9ZCyo.jpg)
 
 
 
