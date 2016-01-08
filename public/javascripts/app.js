@@ -35,6 +35,18 @@ $(document).ready(function(){
       console.log(pos);
       var url = '/api/venues/geo/'+pos.coords.latitude+','+pos.coords.longitude+','+10
       active.collection = new app.Venues({url: url});
+      setTimeout(function() {
+        $('.special-vote-icon').hover(function(e) {
+          console.log('in');
+          $(this).siblings('.vote-box').show();
+        }, function(e) {
+          $(this).siblings('.vote-box').hide();
+        });
+
+        $('.special-vote-icon').on('click', function(e) {
+          $(this).css('color', 'rgb(97, 165, 255)');
+        });
+      }, 300);
     }, function(err) {
       console.log('error', err);
     }, {
@@ -100,7 +112,9 @@ $(document).ready(function(){
     };
 
   } else {
+
     var theprofilevenue = new app.ProfileVenue.collection();
+
   }
   validateSubmit();
 
@@ -200,6 +214,24 @@ app.VenuesView = Backbone.View.extend({
     console.log("LETS GO!");
     this.render();
   },
+  events: {
+    'click .special-vote' : 'verifySpecial'
+  },
+  verifySpecial: function(event) {
+    var target = event.currentTarget;
+    var address = target.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.venue-address').innerHTML.trim();
+    var specialid = target.dataset.id;
+    var url = '/api/verification/' + address + '/' + specialid;
+    $.ajax({
+      url: url,
+      type: 'POST',
+      success: function() {
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  },
   render: function() {
     this.$el.html('');
     var models = this.collection.models;
@@ -216,12 +248,18 @@ app.VenueView = Backbone.View.extend({
   initialize: function() {
     this.template = _.template($('#venue-template').html());
     var data = this.model.attributes;
-    var children = data.children.map(function(child) {
-      var view = new app.SpecialView({data: child});
-      return view.render();
-    }).join('');
-    data.children = children;
-    this.render();
+    data.children.forEach(function(child) {
+      child.verifications = child.verifications.length;
+    });
+    var self = this;
+    setTimeout(function() {
+      var children = data.children.map(function(child) {
+        var view = new app.SpecialView({data: child});
+        return view.render();
+      }).join('');
+      data.children = children;
+      self.render();
+    }, 50);
   },
   render: function() {
     var data = this.model.attributes;
@@ -231,6 +269,7 @@ app.VenueView = Backbone.View.extend({
 
 app.SpecialView = Backbone.View.extend({
   initialize: function(prop) {
+    this
     this.data = prop.data;
     this.template = _.template($('#special-template').html());
   },

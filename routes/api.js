@@ -119,13 +119,18 @@ router.post('/', function(req, res, next) {
   }
 });
 
-router.post('/:address/:specialid/verification', function(req, res, next){
+router.post('/verification/:address/:specialid', function(req, res, next){
+  if (!req.user) {
+    console.log("User not logged in, cannot make verification");
+    return 'Incorrect user';
+  }
   var verification = {
-    Username: 'username',
+    Username: req.user.username,
     SpecialId: req.params.specialid
   };
   Models.Venue.findOne({'Address': req.params.address}, function(err, venue){
     if(err) console.log(err);
+    console.log(venue);
     for (var i = 0; i < venue.children.length; i++) {
       if (venue.children[i]._id = req.params.specialid){
         venue.children[i].verifications.push(verification);
