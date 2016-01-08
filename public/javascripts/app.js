@@ -112,8 +112,12 @@ $(document).ready(function(){
     };
 
   } else {
-
-    var theprofilevenue = new app.ProfileVenue.collection();
+    var location = window.location.pathname;
+    if (window.location.pathname.indexOf('/user/profile') >= 0) {
+      var username = location.replace('/user/profile', '');
+      console.log(username);
+      var theprofilevenue = new app.ProfileVenue.collection({url: url});
+    }
 
   }
   validateSubmit();
