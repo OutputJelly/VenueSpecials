@@ -245,13 +245,13 @@ app.VenueView = Backbone.View.extend({
     data.children = children;
     this.render();
   },
-  events: {
-    'click .special': 'specialUser'
-  },
-  specialUser: function(event){
-    var user = $(".special").prop('id');
-    $(".special").append("<div id='specialPoster'>Posted by: <a href='/users/profile/'" + user + '>' + user + "</div>");
-  },
+  // events: {
+  //   'click .special': 'specialUser'
+  // },
+  // specialUser: function(event){
+  //   var user = $(".special").prop('id');
+  //   $(".special").append("<div id='specialPoster'>Posted by: <a href='/users/profile/'" + user + '>' + user + "</div>");
+  // },
   render: function() {
     var data = this.model.attributes;
     this.$el.append(this.template(data)).hide().fadeIn(500);;
@@ -278,7 +278,7 @@ app.ProfileVenue = Backbone.Model.extend({
 var profilevenue = new app.ProfileVenue();
 
 app.ProfileVenue.collection = Backbone.Collection.extend({
-  url: '/api/special/rogerpan',
+  url: '/api/special/sam',
   model: app.ProfileVenue,
   initialize: function(){
       var self = this;
