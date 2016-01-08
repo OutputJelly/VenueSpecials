@@ -1,6 +1,6 @@
 # The Specialist
 
-Heroku Link:  [The Specialist][https://secret-journey-4811.herokuapp.com/]
+Heroku Link:  [The Specialist](https://secret-journey-4811.herokuapp.com/)
 ![The Specialist Screenshot](http://imgur.com/JD9ZCyo.jpg)
 
 
