@@ -46,6 +46,11 @@ $(document).ready(function(){
         $('.special-vote-icon').on('click', function(e) {
           $(this).css('color', 'rgb(97, 165, 255)');
         });
+
+        $('.special-description').on('click', function(e) {
+          var userp = $(this).prop('id');
+          window.location.pathname = '/users/profile/' + userp;
+        });
       }, 300);
     }, function(err) {
       console.log('error', err);
@@ -112,15 +117,21 @@ $(document).ready(function(){
     };
 
   } else {
-
-    var theprofilevenue = new app.ProfileVenue.collection();
+    var location = window.location.pathname;
+    if (window.location.pathname.indexOf('/users/profile') >= 0) {
+      var username = location.replace('/users/profile', '');
+      console.log(username);
+      var userurl = '/api/special' + username
+      console.log(userurl);
+      var theprofilevenue = new app.ProfileVenue.collection({url: userurl});
+    }
 
   }
   validateSubmit();
   registerHide();
-  app.profile = $("#profile_user").attr('value');
-
-
+  // app.profile = $("#profile_user").attr('value');
+  //
+  //
   $("#profile_user").hide();
 
 });// end of document ready
@@ -231,7 +242,7 @@ app.VenuesView = Backbone.View.extend({
   },
   verifySpecial: function(event) {
     var target = event.currentTarget;
-    var address = target.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.venue-address').innerHTML.trim();
+    var address = target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.venue-address').innerHTML.trim();
     var specialid = target.dataset.id;
     var url = '/api/verification/' + address + '/' + specialid;
     $.ajax({
@@ -305,13 +316,15 @@ app.ProfileVenue = Backbone.Model.extend({
 });
 
 
-
+// url: '/api/special/
 
 
 app.ProfileVenue.collection = Backbone.Collection.extend({
-  url: '/api/special/' + user-profile,
   model: app.ProfileVenue,
-  initialize: function(){
+  initialize: function(prop){
+    this.url = prop.url;
+      // this.url = prop;
+      // console.log(this.url);
       var self = this;
       this.on('sync', function(){
         var view = new app.ProfileVenue.collectionView({
