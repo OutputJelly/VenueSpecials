@@ -5,11 +5,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script type="text/javascript" src='../javascripts/jquery.js'></script>
+
+    <script type="text/javascript" src='/javascripts/jquery.js'></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=places"></script>
+
     <script type="text/javascript" src='/javascripts/underscore.js'></script>
     <script type="text/javascript" src='/javascripts/backbone.js'></script>
-    <script type="text/javascript" src="../javascripts/app.js"></script>
+    <script type="text/javascript" src="/javascripts/app.js"></script>
   </head>
   <body>
     <header>
@@ -26,9 +28,8 @@
             {{/if}}
           </button>
           {{#if user}}
-          <button type="button" class="btn btn-primary" class="nav_buttons">
-            <a href="/users/profile">Past Posts</a>
-          </button>
+          <button type="button" class="btn btn-primary">
+            <a href="/users/profile/{{user.username}}">Past Posts</a>
           {{/if}}
           <button type="button" class="btn btn-primary" class="nav_buttons">
             {{#if user}}
@@ -69,11 +70,13 @@
     </script>
 
     <script type='text/template' id='special-template'>
+      <div class="special">
+
       <div class='special' <% if (verifications > 0) { %> <%= "style='background-color: rgb(65, 201, 67);'"%> <% } %>>
         <div class='special-date'>
           <%= Date %>
         </div>
-        <div class='special-description'>
+        <div id=<%= Username %> class='special-description'>
           <%= Description %>
         </div>
         <div class='special-verify'>
