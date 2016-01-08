@@ -5,8 +5,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='/stylesheets/bootstrap.css'>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script type="text/javascript" src='/javascripts/jquery.js'></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz0IVOUlwIaZdq5zsKUaNqkEBjdDCqqQc&libraries=places"></script>
+
+    <script type="text/javascript" src='../javascripts/jquery.js'></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&libraries=places"></script>
+
     <script type="text/javascript" src='/javascripts/underscore.js'></script>
     <script type="text/javascript" src='/javascripts/backbone.js'></script>
     <script type="text/javascript" src="/javascripts/app.js"></script>
@@ -18,7 +20,7 @@
           <h1><a href="/">The Specialist</a></h1>
         </div>
         <div class='button-container pull-right'>
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary" class="nav_buttons">
             {{#if user}}
             <a href="/submit">Add Special</a>
             {{else}}
@@ -26,11 +28,16 @@
             {{/if}}
           </button>
           {{#if user}}
+<<<<<<< HEAD
           <button type="button" class="btn btn-primary">
             <a href="/users/profile/{{user.username}}">Past Posts</a>
+=======
+          <button type="button" class="btn btn-primary" class="nav_buttons">
+            <a href="/users/profile">Past Posts</a>
+>>>>>>> 7da6ca50631256ff4fd4c84f1e197a8a827233d9
           </button>
           {{/if}}
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary" class="nav_buttons">
             {{#if user}}
             <a href="/users/logout">Sign Out</a>
             {{else}}
@@ -69,8 +76,12 @@
     </script>
 
     <script type='text/template' id='special-template'>
+<<<<<<< HEAD
       <div id=<%= Username %> class="special">
 
+=======
+      <div class='special' <% if (verifications > 0) { %> <%= "style='background-color: rgb(65, 201, 67);'"%> <% } %>>
+>>>>>>> 7da6ca50631256ff4fd4c84f1e197a8a827233d9
         <div class='special-date'>
           <%= Date %>
         </div>
@@ -78,11 +89,13 @@
           <%= Description %>
         </div>
         <div class='special-verify'>
-          <div class='special-vote'>
+          <div class='special-vote' data-id=<%= _id %>>
+            <div class='vote-box'>
+              <div class='votes'>
+                Verifications: <%= verifications %>
+              </div>
+            </div>
             <i class="fa fa-thumbs-up special-vote-icon"></i>
-          </div>
-          <div class='special-vote'>
-            <i class="fa fa-thumbs-down special-vote-icon"></i>
           </div>
         </div>
       </div>

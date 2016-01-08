@@ -119,13 +119,18 @@ router.post('/', function(req, res, next) {
   }
 });
 
-router.post('/:address/:specialid/verification', function(req, res, next){
+router.post('/verification/:address/:specialid', function(req, res, next){
+  if (!req.user) {
+    console.log("User not logged in, cannot make verification");
+    return 'Incorrect user';
+  }
   var verification = {
-    Username: 'username',
+    Username: req.user.username,
     SpecialId: req.params.specialid
   };
   Models.Venue.findOne({'Address': req.params.address}, function(err, venue){
     if(err) console.log(err);
+    console.log(venue);
     for (var i = 0; i < venue.children.length; i++) {
       if (venue.children[i]._id = req.params.specialid){
         venue.children[i].verifications.push(verification);
@@ -251,6 +256,26 @@ function(err, specials){
     res.json(specials);
   })
 });
+
+router.get('/special/:venueid/:specialid', function(req,res, next){
+  console.log(req.params.username);
+  console.log(req.params.id);
+  Models.Venue.findById(req.params.venueid, function(err,venue) {
+    for (var i=0; i < venue.children.length; i++){
+      console.log(venue.children[i]);
+
+    }
+    if (err) console.log(err);
+    res.json(venue);
+  });
+});
+// router.delete('/:id', function(req, res, next) {
+//   console.log(req.body);
+//   Models.Special.findByIdAndRemove(req.params.id, req.body, function(err, special) {
+//     if (err) return (next(err));
+//     res.json(special);
+//   });
+// });
 
 /* GET /api/venues/geo/.... */
 router.get('/venues/geo/:lat,:long,:radius', function(req, res, next) {
