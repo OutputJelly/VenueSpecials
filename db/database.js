@@ -1,7 +1,20 @@
-//database stuff here
-var mongoose = require('mongoose');
+require('dotenv').load();
 
-var connectionString = "mongodb://localhost/specialist";
+
+var mongoose = require('mongoose');
+var connectionString = process.env.DATABASE_URL;
+
+// define connection string.  'production' will be set if deployed on heroku
+if(process.env.NODE_ENV === 'production'){
+  connectionString = process.env.MONGOLAB_URI;
+}
+
+// alternate way to define string as in class
+// var connectionString = process.env.DATABASE_URL || process.env.MONGOLAB_URI;
+
+console.log("-------------------------------Attempting to connect to Database");
+console.log('process.evn.MOGOLAB_URI: ' + process.env.MONGOLAB_URI);
+console.log('connection string: ' + connectionString);
 
 mongoose.connect(connectionString);
 
