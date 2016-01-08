@@ -18,7 +18,7 @@
           <h1><a href="/">The Specialist</a></h1>
         </div>
         <div class='button-container pull-right'>
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary" class="nav_buttons">
             {{#if user}}
             <a href="/submit">Add Special</a>
             {{else}}
@@ -26,11 +26,11 @@
             {{/if}}
           </button>
           {{#if user}}
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary" class="nav_buttons">
             <a href="/users/profile">Past Posts</a>
           </button>
           {{/if}}
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary" class="nav_buttons">
             {{#if user}}
             <a href="/users/logout">Sign Out</a>
             {{else}}
