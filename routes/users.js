@@ -54,13 +54,13 @@ router.get('/logout', function(req, res){
   res.redirect('/');
 })
 
-router.get('/profile/:username', isAuthenticated, function(req, res){
-  if (req.params.username = req.user.username) {
-    res.render('profile', {user: req.user});
-  } else {
-    res.render('profile', {user: req.params.username})
-  }
-
-})
+// router.get('/profile/:username', isAuthenticated, function(req, res){
+//   if (req.params.username = req.user.username) {
+//     res.render('profile', {user: req.user});
+//   } else {
+//     res.render('profile', {user: req.params.username})
+//   }
+//
+// })
 
 module.exports = router;

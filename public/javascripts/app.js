@@ -244,7 +244,7 @@ app.VenueView = Backbone.View.extend({
   events: {
     'click .special': 'specialUser'
   },
-  specialUser: function(){
+  specialUser: function(event){
     var user = $(".special").prop('id');
     $(".special").append("<div id='specialPoster'>Posted by: <a href='/users/profile/'" + user + '>' + user + "</div>");
   },
