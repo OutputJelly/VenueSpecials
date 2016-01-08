@@ -1,5 +1,7 @@
 var app = app || {};
 var active = active || {};
+
+
 Backbone.Model.prototype.idAttribute = '_id';
 
 var autocomplete;
@@ -110,6 +112,8 @@ $(document).ready(function(){
     };
 
   } else {
+
+    var theprofilevenue = new app.ProfileVenue.collection();
 
   }
   validateSubmit();
@@ -229,7 +233,7 @@ app.VenuesView = Backbone.View.extend({
   },
   verifySpecial: function(event) {
     var target = event.currentTarget;
-    var address = target.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.venue-address').innerHTML.trim(); //shitty code don't give afuck!
+    var address = target.parentNode.parentNode.parentNode.parentNode.parentNode.querySelector('.venue-address').innerHTML.trim();
     var specialid = target.dataset.id;
     var url = '/api/verification/' + address + '/' + specialid;
     $.ajax({
@@ -282,6 +286,81 @@ app.SpecialView = Backbone.View.extend({
     this
     this.data = prop.data;
     this.template = _.template($('#special-template').html());
+  },
+  render: function() {
+    return this.template(this.data);
+  }
+});
+
+// Profile page
+app.ProfileVenue = Backbone.Model.extend({
+  initialize: function(){
+    console.log('model working');
+  }
+});
+
+var profilevenue = new app.ProfileVenue();
+
+app.ProfileVenue.collection = Backbone.Collection.extend({
+  url: '/api/special/rogerpan',
+  model: app.ProfileVenue,
+  initialize: function(){
+      var self = this;
+      this.on('sync', function(){
+        var view = new app.ProfileVenue.collectionView({
+          collection: self
+        });
+      });
+        console.log('A profile venue collection is ready');
+        this.fetch();
+      }
+    });
+
+// var theprofilevenue = new app.ProfileVenue.collection();
+// console.log(theprofilevenue);
+
+app.ProfileVenue.collectionView = Backbone.View.extend({
+  el: '#profile-entries',
+  initialize: function(){
+      this.render();
+    },
+    render:function(){
+      this.$el.html('');
+      console.log(this.collection,'collection console log');
+      var models = this.collection.models;
+      for (var m in models){
+        var data = models[m];
+        new app.ProfileView({
+          model: data,
+          el: this.el
+        });
+      }
+    }
+});
+
+app.ProfileView = Backbone.View.extend({
+  initialize: function() {
+    this.template = _.template($('#profile-venue-template').html());
+    var data = this.model.attributes;
+    var children = data.children.map(function(child) {
+      var view = new app.SpecialViewProfile({data: child});
+      return view.render();
+    }).join('');
+    data.children = children;
+    this.render();
+  },
+  render: function() {
+    var data = this.model.attributes;
+    console.log(data, "the data");
+    this.$el.append(this.template(data)).hide().fadeIn(500);;
+  }
+});
+
+
+app.SpecialViewProfile = Backbone.View.extend({
+  initialize: function(prop) {
+    this.data = prop.data;
+    this.template = _.template($('#profile-special-template').html());
   },
   render: function() {
     return this.template(this.data);
