@@ -1,6 +1,6 @@
 var app = app || {};
 var active = active || {};
-
+app.profile
 
 Backbone.Model.prototype.idAttribute = '_id';
 
@@ -117,9 +117,21 @@ $(document).ready(function(){
 
   }
   validateSubmit();
+  registerHide();
+  app.profile = $("#profile_user").attr('value');
 
+
+  $("#profile_user").hide();
 
 });// end of document ready
+
+function registerHide() {
+  $("#register").hide();
+  $("#registerbtn").click(function() {
+  $("#register").show();
+  $("#registerbtn").hide();
+  });
+};
 
 function validateSubmit() {
   $('.form_submit > input').keyup(function(){
@@ -261,6 +273,13 @@ app.VenueView = Backbone.View.extend({
       self.render();
     }, 50);
   },
+  // events: {
+  //   'click .special': 'specialUser'
+  // },
+  // specialUser: function(event){
+  //   var user = $(".special").prop('id');
+  //   $(".special").append("<div id='specialPoster'>Posted by: <a href='/users/profile/'" + user + '>' + user + "</div>");
+  // },
   render: function() {
     var data = this.model.attributes;
     this.$el.append(this.template(data)).hide().fadeIn(500);;
@@ -285,10 +304,12 @@ app.ProfileVenue = Backbone.Model.extend({
   }
 });
 
-var profilevenue = new app.ProfileVenue();
+
+
+
 
 app.ProfileVenue.collection = Backbone.Collection.extend({
-  url: '/api/special/rogerpan',
+  url: '/api/special/' + user-profile,
   model: app.ProfileVenue,
   initialize: function(){
       var self = this;
