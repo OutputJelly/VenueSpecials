@@ -1,6 +1,6 @@
 var app = app || {};
 var active = active || {};
-
+app.profile
 
 Backbone.Model.prototype.idAttribute = '_id';
 
@@ -104,6 +104,10 @@ $(document).ready(function(){
   }
   validateSubmit();
   registerHide();
+  app.profile = $("#profile_user").attr('value');
+
+
+  $("#profile_user").hide();
 
 });// end of document ready
 
@@ -275,10 +279,12 @@ app.ProfileVenue = Backbone.Model.extend({
   }
 });
 
-var profilevenue = new app.ProfileVenue();
+
+
+
 
 app.ProfileVenue.collection = Backbone.Collection.extend({
-  url: '/api/special/sam',
+  url: '/api/special/' + user-profile,
   model: app.ProfileVenue,
   initialize: function(){
       var self = this;
